@@ -15,14 +15,14 @@ namespace HomeWork_4_13
 {
     class Program
     {
-
+        //Komentarz
         static private int GetIput()
         {
             if(! int.TryParse(Console.ReadLine(), out int input))
             {
                 throw new Exception("Podałeś nie poprawną liczbę.");
             }
-            return input;
+            return input;  
         }
 
         static private void PlayFizzBuzz()

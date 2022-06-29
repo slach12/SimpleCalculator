@@ -4,6 +4,7 @@ namespace HomeWork_3_20
 {
     class Program
     {
+        //Komentarz
         private static int GetYear()
         {
             while (true) {
