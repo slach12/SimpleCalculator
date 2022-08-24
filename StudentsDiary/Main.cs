@@ -24,17 +24,15 @@ namespace StudentsDiary
         {
             InitializeComponent();
 
-          //  var students = new List<Student>();
+            //  var students = new List<Student>();
             //students.Add(new Student { FirstName = "Jan" });
             //students.Add(new Student() { FirstName = "Marek" });
             //students.Add(new Student { FirstName = "Małgosia" });
             //SerializeToFile(students);
+            //DeserializeFromFile();
 
             var students = DeserializeFromFile();
-            foreach(var student in students)
-            {
-                MessageBox.Show(student.FirstName);
-            }
+            dgvDiary.DataSource = students;
         }
 
 
@@ -110,21 +108,50 @@ namespace StudentsDiary
         }
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-
+            var students = DeserializeFromFile();
+            dgvDiary.DataSource = students;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (dgvDiary.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Proszę, zaznacz ucznia któego dane chcesz usunąć.");
+                return;
+            }
 
+            var selectedStudent = dgvDiary.SelectedRows[0];
+            var confirmDelete = MessageBox.Show($"Czy na pewno chcesz usunąć ucznia " +
+                $"{(selectedStudent.Cells[1].Value.ToString() + " " + selectedStudent.Cells[2].Value.ToString()).Trim()}",
+                "Usuwanie Ucznisa",MessageBoxButtons.OKCancel);
+            if(confirmDelete == DialogResult.OK)
+            {
+                var students = DeserializeFromFile();
+                students.RemoveAll(x => x.Id == Convert.ToInt32(selectedStudent.Cells[0].Value));
+                SerializeToFile(students);
+                dgvDiary.DataSource = students;
+
+            }
+          
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            if(dgvDiary.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Proszę, zaznacz ucznia któego dane chcesz edytować.");
+                return;
+            }
+
+            var addEditStudent = new AddEditStudent(Convert.ToInt32( dgvDiary.SelectedRows[0].Cells[0].Value));
+            addEditStudent.ShowDialog();
 
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            var addEditStudent = new AddEditStudent();
+            addEditStudent.ShowDialog();
 
         }
     }
