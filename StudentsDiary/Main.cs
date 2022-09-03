@@ -139,7 +139,7 @@ namespace StudentsDiary
         {
             if(dgvDiary.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Proszę, zaznacz ucznia któego dane chcesz edytować.");
+                MessageBox.Show("Proszę, zaznacz ucznia którego dane chcesz edytować.");
                 return;
             }
 

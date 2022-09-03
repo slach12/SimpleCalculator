@@ -75,15 +75,7 @@ namespace StudentsDiary
             else
             {
                 var studentWithHaighestId = students.OrderByDescending(x => x.Id).FirstOrDefault();
-                //var studentId = 0;
-                //if (studentWithHaighestId == null)
-                //{
-                //    studentId++;
-                //}
-                //else
-                //{
-                //    studentId = studentWithHaighestId.Id + 1;
-                //}
+        
                 _studentId = studentWithHaighestId == null ? 1 : studentWithHaighestId.Id + 1;
             }
 
