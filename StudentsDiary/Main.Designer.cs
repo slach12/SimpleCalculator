@@ -40,9 +40,10 @@ namespace StudentsDiary
             // btnAdd
             // 
             this.btnAdd.BackColor = System.Drawing.Color.LimeGreen;
-            this.btnAdd.Location = new System.Drawing.Point(28, 21);
+            this.btnAdd.Location = new System.Drawing.Point(37, 26);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(100, 28);
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "Dodaj";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -51,9 +52,10 @@ namespace StudentsDiary
             // btnEdit
             // 
             this.btnEdit.BackColor = System.Drawing.Color.Goldenrod;
-            this.btnEdit.Location = new System.Drawing.Point(179, 21);
+            this.btnEdit.Location = new System.Drawing.Point(239, 26);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.Size = new System.Drawing.Size(100, 28);
             this.btnEdit.TabIndex = 1;
             this.btnEdit.Text = "Edytuj";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -62,9 +64,10 @@ namespace StudentsDiary
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.LightCoral;
-            this.btnDelete.Location = new System.Drawing.Point(330, 21);
+            this.btnDelete.Location = new System.Drawing.Point(440, 26);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.Size = new System.Drawing.Size(100, 28);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "Usuń";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -73,9 +76,10 @@ namespace StudentsDiary
             // btnRefresh
             // 
             this.btnRefresh.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.btnRefresh.Location = new System.Drawing.Point(481, 21);
+            this.btnRefresh.Location = new System.Drawing.Point(641, 26);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.Size = new System.Drawing.Size(100, 28);
             this.btnRefresh.TabIndex = 3;
             this.btnRefresh.Text = "Odśwież";
             this.btnRefresh.UseVisualStyleBackColor = false;
@@ -88,24 +92,29 @@ namespace StudentsDiary
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvDiary.BackgroundColor = System.Drawing.Color.White;
             this.dgvDiary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDiary.Location = new System.Drawing.Point(12, 65);
+            this.dgvDiary.Location = new System.Drawing.Point(16, 80);
+            this.dgvDiary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvDiary.Name = "dgvDiary";
-            this.dgvDiary.Size = new System.Drawing.Size(637, 269);
+            this.dgvDiary.RowHeadersVisible = false;
+            this.dgvDiary.RowHeadersWidth = 51;
+            this.dgvDiary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDiary.Size = new System.Drawing.Size(1306, 331);
             this.dgvDiary.TabIndex = 4;
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(661, 346);
+            this.ClientSize = new System.Drawing.Size(1338, 426);
             this.Controls.Add(this.dgvDiary);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnAdd);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "Dziennik Ucznia";
             ((System.ComponentModel.ISupportInitialize)(this.dgvDiary)).EndInit();
             this.ResumeLayout(false);
 

@@ -1,72 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace StudentsDiary
 {
     public partial class Main : Form
     {
-        private string _filePath =
-               Path.Combine(Environment.CurrentDirectory, "students.txt");
-
-    //    private string _filePath = $@"{Environment.CurrentDirectory}\students.txt";
-
+       // private string _filePath =
+       //        Path.Combine(Environment.CurrentDirectory, "students.txt");
+        private FileHelper<List<Student>> _fileHelper = new FileHelper<List<Student>>(Program.FilePath);
+        //    private string _filePath = $@"{Environment.CurrentDirectory}\students.txt";
+        private const byte hId          = 0;
+        private const byte hFirstName   = 1;
+        private const byte hLastName    = 2; 
+        private const byte hComents     = 3;
+        private const byte hMath        = 4;
+        private const byte hTechnology  = 5;
+        private const byte hPhysics     = 6;
+        private const byte hPolishLang  = 7;
+        private const byte hForeignLang = 8;
 
         public Main()
         {
+            
             InitializeComponent();
 
-            //  var students = new List<Student>();
-            //students.Add(new Student { FirstName = "Jan" });
-            //students.Add(new Student() { FirstName = "Marek" });
-            //students.Add(new Student { FirstName = "Małgosia" });
-            //SerializeToFile(students);
-            //DeserializeFromFile();
+            RefreshDiary();
 
-            var students = DeserializeFromFile();
+            SetColumnHeader();
+            var list = new List<Person>() {
+                new Student{FirstName ="StudentImie", LastName="StudentNazwisko",Math="2" },
+                new Teacher{FirstName="TeacherImie", LastName="TeacherNazwisko" },
+            };
+
+            //foreach(var item in list)
+            //{
+            //    if (item is Student)
+            //        MessageBox.Show((item as Student).GetStudentInfo());
+            //    else if (item is Teacher)
+            //        MessageBox.Show((item as Teacher).GetTeacherInfo());
+            //}
+
+            //foreach(var item in list)
+            //{
+            //    MessageBox.Show( item.GetInfo());
+            //}
+
+    }
+        private void RefreshDiary()
+        {
+            var students = _fileHelper.DeserializeFromFile();
             dgvDiary.DataSource = students;
         }
 
-
-
-        public List<Student> DeserializeFromFile()
+        private void SetColumnHeader()
         {
-            if (!File.Exists(_filePath))
-                return new List<Student>();
-            var serialize = new XmlSerializer(typeof(List<Student>));
-            using (var streamReader = new StreamReader(_filePath))
-            {
-                var students = (List<Student>)serialize.Deserialize(streamReader);
-                streamReader.Close();
-                return students;
-            }
+            dgvDiary.Columns[hId].HeaderText = "Numer";
+            dgvDiary.Columns[hFirstName].HeaderText = "Imię";
+            dgvDiary.Columns[hLastName].HeaderText = "Nazwisko";
+            dgvDiary.Columns[hComents].HeaderText = "Uwagii";
+            dgvDiary.Columns[hMath].HeaderText = "Matematyka";
+            dgvDiary.Columns[hTechnology].HeaderText = "Technologia";
+            dgvDiary.Columns[hPhysics].HeaderText = "Fizyka";
+            dgvDiary.Columns[hPolishLang].HeaderText = "Język polski";
+            dgvDiary.Columns[hForeignLang].HeaderText = "Język obcy";
         }
 
-        public void SerializeToFile(List<Student> students)
-        {
-            var serializer = new XmlSerializer(typeof(List<Student>));
-            using(var streamWriter = new StreamWriter(_filePath))
-            {
-                serializer.Serialize(streamWriter, students);
-                streamWriter.Close();
-            }
-        }
-       
+
+
         public void SerializeToFileWithTryFinally(List<Student> students)
         {
             var serialize = new XmlSerializer(typeof(List<Student>));
             StreamWriter streamWriter = null;
             try
             {
-                streamWriter = new StreamWriter(_filePath);
+                streamWriter = new StreamWriter(Program.FilePath);
                 serialize.Serialize(streamWriter, students);
                 streamWriter.Close();
                 
@@ -83,7 +94,7 @@ namespace StudentsDiary
         {
             var serialize = new XmlSerializer(typeof(List<Student>));
 
-            using (var streamWriter = new StreamWriter(_filePath))
+            using (var streamWriter = new StreamWriter(Program.FilePath))
             {
                 serialize.Serialize(streamWriter, students);
                 streamWriter.Close();
@@ -97,7 +108,7 @@ namespace StudentsDiary
             var serializer = new XmlSerializer(typeof(List<Student>));
             try
             {
-                streamWriter = new StreamWriter(_filePath);
+                streamWriter = new StreamWriter(Program.FilePath);
                 serializer.Serialize(streamWriter, students);
                 streamWriter.Close();
             }
@@ -108,8 +119,7 @@ namespace StudentsDiary
         }
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            var students = DeserializeFromFile();
-            dgvDiary.DataSource = students;
+            RefreshDiary();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -126,13 +136,19 @@ namespace StudentsDiary
                 "Usuwanie Ucznisa",MessageBoxButtons.OKCancel);
             if(confirmDelete == DialogResult.OK)
             {
-                var students = DeserializeFromFile();
-                students.RemoveAll(x => x.Id == Convert.ToInt32(selectedStudent.Cells[0].Value));
-                SerializeToFile(students);
-                dgvDiary.DataSource = students;
 
+                DeleteStudent(Convert.ToInt32(selectedStudent.Cells[0].Value));
+                RefreshDiary();
             }
           
+        }
+
+        private void DeleteStudent(int id)
+        {
+            var students = _fileHelper.DeserializeFromFile();
+            students.RemoveAll(x => x.Id == id);
+            _fileHelper.SerializeToFile(students);
+
         }
 
         private void btnEdit_Click(object sender, EventArgs e)

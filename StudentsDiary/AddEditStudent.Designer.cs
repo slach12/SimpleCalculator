@@ -54,7 +54,7 @@ namespace StudentsDiary
             // tbId
             // 
             this.tbId.Location = new System.Drawing.Point(107, 26);
-            this.tbId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbId.Margin = new System.Windows.Forms.Padding(4);
             this.tbId.Name = "tbId";
             this.tbId.ReadOnly = true;
             this.tbId.Size = new System.Drawing.Size(272, 22);
@@ -83,7 +83,7 @@ namespace StudentsDiary
             // tbFirstName
             // 
             this.tbFirstName.Location = new System.Drawing.Point(107, 58);
-            this.tbFirstName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbFirstName.Margin = new System.Windows.Forms.Padding(4);
             this.tbFirstName.Name = "tbFirstName";
             this.tbFirstName.Size = new System.Drawing.Size(272, 22);
             this.tbFirstName.TabIndex = 2;
@@ -101,7 +101,7 @@ namespace StudentsDiary
             // tbLastName
             // 
             this.tbLastName.Location = new System.Drawing.Point(107, 90);
-            this.tbLastName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbLastName.Margin = new System.Windows.Forms.Padding(4);
             this.tbLastName.Name = "tbLastName";
             this.tbLastName.Size = new System.Drawing.Size(272, 22);
             this.tbLastName.TabIndex = 4;
@@ -119,7 +119,7 @@ namespace StudentsDiary
             // tbMath
             // 
             this.tbMath.Location = new System.Drawing.Point(107, 122);
-            this.tbMath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbMath.Margin = new System.Windows.Forms.Padding(4);
             this.tbMath.Name = "tbMath";
             this.tbMath.Size = new System.Drawing.Size(272, 22);
             this.tbMath.TabIndex = 6;
@@ -137,7 +137,7 @@ namespace StudentsDiary
             // tbTechonology
             // 
             this.tbTechonology.Location = new System.Drawing.Point(107, 154);
-            this.tbTechonology.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbTechonology.Margin = new System.Windows.Forms.Padding(4);
             this.tbTechonology.Name = "tbTechonology";
             this.tbTechonology.Size = new System.Drawing.Size(272, 22);
             this.tbTechonology.TabIndex = 8;
@@ -155,7 +155,7 @@ namespace StudentsDiary
             // tbPhysics
             // 
             this.tbPhysics.Location = new System.Drawing.Point(107, 186);
-            this.tbPhysics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbPhysics.Margin = new System.Windows.Forms.Padding(4);
             this.tbPhysics.Name = "tbPhysics";
             this.tbPhysics.Size = new System.Drawing.Size(272, 22);
             this.tbPhysics.TabIndex = 10;
@@ -173,7 +173,7 @@ namespace StudentsDiary
             // tbPolishLang
             // 
             this.tbPolishLang.Location = new System.Drawing.Point(107, 218);
-            this.tbPolishLang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbPolishLang.Margin = new System.Windows.Forms.Padding(4);
             this.tbPolishLang.Name = "tbPolishLang";
             this.tbPolishLang.Size = new System.Drawing.Size(272, 22);
             this.tbPolishLang.TabIndex = 12;
@@ -191,7 +191,7 @@ namespace StudentsDiary
             // tbForingLang
             // 
             this.tbForingLang.Location = new System.Drawing.Point(107, 250);
-            this.tbForingLang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbForingLang.Margin = new System.Windows.Forms.Padding(4);
             this.tbForingLang.Name = "tbForingLang";
             this.tbForingLang.Size = new System.Drawing.Size(272, 22);
             this.tbForingLang.TabIndex = 14;
@@ -199,7 +199,7 @@ namespace StudentsDiary
             // rtbComents
             // 
             this.rtbComents.Location = new System.Drawing.Point(107, 282);
-            this.rtbComents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rtbComents.Margin = new System.Windows.Forms.Padding(4);
             this.rtbComents.Name = "rtbComents";
             this.rtbComents.Size = new System.Drawing.Size(272, 132);
             this.rtbComents.TabIndex = 16;
@@ -218,7 +218,7 @@ namespace StudentsDiary
             // btnCancel
             // 
             this.btnCancel.Location = new System.Drawing.Point(107, 422);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 18;
@@ -229,7 +229,7 @@ namespace StudentsDiary
             // btnConfirm
             // 
             this.btnConfirm.Location = new System.Drawing.Point(280, 422);
-            this.btnConfirm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnConfirm.Margin = new System.Windows.Forms.Padding(4);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(100, 28);
             this.btnConfirm.TabIndex = 19;
@@ -262,9 +262,12 @@ namespace StudentsDiary
             this.Controls.Add(this.tbFirstName);
             this.Controls.Add(this.lbId);
             this.Controls.Add(this.tbId);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximumSize = new System.Drawing.Size(437, 528);
+            this.MinimumSize = new System.Drawing.Size(437, 528);
             this.Name = "AddEditStudent";
-            this.Text = "AddEditStudent";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Dodawanie Ucznia";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,72 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
+
 
 namespace StudentsDiary
 {
     public partial class AddEditStudent : Form
     {
-        private string _filePath =
-              Path.Combine(Environment.CurrentDirectory, "students.txt");
+      //  private string _filePath =
+        //      Path.Combine(Environment.CurrentDirectory, "students.txt");
+
+        private FileHelper<List<Student>> _fileHelper = new FileHelper<List<Student>>(Program.FilePath);
 
         private int _studentId;
+        private Student _student;
 
-        public List<Student> DeserializeFromFile()
-        {
-            if (!File.Exists(_filePath))
-                return new List<Student>();
-            var serialize = new XmlSerializer(typeof(List<Student>));
-            using (var streamReader = new StreamReader(_filePath))
-            {
-                var students = (List<Student>)serialize.Deserialize(streamReader);
-                streamReader.Close();
-                return students;
-            }
-        }
 
-        public void SerializeToFile(List<Student> students)
-        {
-            var serializer = new XmlSerializer(typeof(List<Student>));
-            using (var streamWriter = new StreamWriter(_filePath))
-            {
-                serializer.Serialize(streamWriter, students);
-                streamWriter.Close();
-            }
-        }
         public AddEditStudent(int id =  0)
         {
             InitializeComponent();
             _studentId = id;
-            if (id != 0)
-            {
-                var students = DeserializeFromFile();
-                var student = students.FirstOrDefault(x => x.Id == id);
-                if (student == null)
-                    throw new Exception($"Brak użytkownika o Id {id}");
-                tbId.Text = student.Id.ToString();
-                tbFirstName.Text = student.FirstName;
-                tbLastName.Text = student.LastName;
-                tbMath.Text = student.Math;
-                tbPhysics.Text = student.Physics;
-                tbTechonology.Text = student.Technology;
-                tbPolishLang.Text = student.PolishLang;
-                tbForingLang.Text = student.ForeignLang;
-                rtbComents.Text = student.Coments;
-            }
+            GetStudentData();
             tbFirstName.Select();
         }
 
+        private void GetStudentData()
+        {
+            if (_studentId != 0)
+            {
+                Text = "Edytowanie danych ucznia";
+                var students = _fileHelper.DeserializeFromFile();
+                _student = students.FirstOrDefault(x => x.Id == _studentId);
+                if (_student == null)
+                    throw new Exception($"Brak użytkownika o Id {_studentId}");
+                FillTextBoxes();
+            }
+        }
+
+        private void FillTextBoxes()
+        {
+            tbId.Text = _student.Id.ToString();
+            tbFirstName.Text = _student.FirstName;
+            tbLastName.Text = _student.LastName;
+            tbMath.Text = _student.Math;
+            tbPhysics.Text = _student.Physics;
+            tbTechonology.Text = _student.Technology;
+            tbPolishLang.Text = _student.PolishLang;
+            tbForingLang.Text = _student.ForeignLang;
+            rtbComents.Text = _student.Coments;
+
+        }
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            var students = DeserializeFromFile();
+            var students = _fileHelper.DeserializeFromFile();
 
             if (_studentId != 0)
             {
@@ -74,12 +62,19 @@ namespace StudentsDiary
             }
             else
             {
-                var studentWithHaighestId = students.OrderByDescending(x => x.Id).FirstOrDefault();
-        
-                _studentId = studentWithHaighestId == null ? 1 : studentWithHaighestId.Id + 1;
+                AssigneIdToNewStudent(students);
             }
 
+            AddNewStudentToList(students);
 
+          
+            _fileHelper.SerializeToFile(students);
+            Close();
+        }
+
+
+        private void AddNewStudentToList(List<Student> students)
+        {
             var student = new Student
             {
                 Id = _studentId,
@@ -95,8 +90,11 @@ namespace StudentsDiary
             };
 
             students.Add(student);
-            SerializeToFile(students);
-            Close();
+        }
+        private void AssigneIdToNewStudent(List<Student> students)
+        {
+            var studentWithHaighestId = students.OrderByDescending(x => x.Id).FirstOrDefault();
+            _studentId = studentWithHaighestId == null ? 1 : studentWithHaighestId.Id + 1;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
