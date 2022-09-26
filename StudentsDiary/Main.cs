@@ -9,8 +9,11 @@ namespace StudentsDiary
 {
     public partial class Main : Form
     {
-       // private string _filePath =
-       //        Path.Combine(Environment.CurrentDirectory, "students.txt");
+
+        private delegate void DisplayMessage(string message);
+
+        // private string _filePath =
+        //        Path.Combine(Environment.CurrentDirectory, "students.txt");
         private FileHelper<List<Student>> _fileHelper = new FileHelper<List<Student>>(Program.FilePath);
         //    private string _filePath = $@"{Environment.CurrentDirectory}\students.txt";
         private const byte hId          = 0;
@@ -25,31 +28,27 @@ namespace StudentsDiary
 
         public Main()
         {
-            
+           
+
             InitializeComponent();
 
             RefreshDiary();
 
             SetColumnHeader();
-            var list = new List<Person>() {
-                new Student{FirstName ="StudentImie", LastName="StudentNazwisko",Math="2" },
-                new Teacher{FirstName="TeacherImie", LastName="TeacherNazwisko" },
-            };
 
-            //foreach(var item in list)
-            //{
-            //    if (item is Student)
-            //        MessageBox.Show((item as Student).GetStudentInfo());
-            //    else if (item is Teacher)
-            //        MessageBox.Show((item as Teacher).GetTeacherInfo());
-            //}
+        }
 
-            //foreach(var item in list)
-            //{
-            //    MessageBox.Show( item.GetInfo());
-            //}
+        public void DisplayMessage1(string message)
+        {
+            MessageBox.Show($"Metoda 1 - {message}");
+        }
 
-    }
+        public void DisplayMessage2(string message)
+        {
+            MessageBox.Show($"Metoda 2 - {message}");
+        }
+
+
         private void RefreshDiary()
         {
             var students = _fileHelper.DeserializeFromFile();
@@ -67,6 +66,8 @@ namespace StudentsDiary
             dgvDiary.Columns[hPhysics].HeaderText = "Fizyka";
             dgvDiary.Columns[hPolishLang].HeaderText = "Język polski";
             dgvDiary.Columns[hForeignLang].HeaderText = "Język obcy";
+
+            
         }
 
 

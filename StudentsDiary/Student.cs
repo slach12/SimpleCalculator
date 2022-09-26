@@ -6,29 +6,38 @@ using System.Threading.Tasks;
 
 namespace StudentsDiary
 {
+    public class Address
+    {
+        public string City { get; set; }
+        public string Street { get; set; }
+            
+    }
 
-    public class Student2 : Student
+    internal class Student2 : Student
     {
 
     }
     public  class Student :Person
     {
-
-        //public int Id { get; set; }
-        //public string FirstName { get; set; }
-        //public string LastName { get; set; }
-        //public string Coments { get; set; }
+        public Student()
+        {
+            Address = new Address();
+        }
+ 
         public string Math { get; set; }
         public string Technology { get; set; }
         public string Physics { get; set; }
         public string PolishLang { get; set; }
         public string ForeignLang { get; set; }
 
+        public Address Address { get; set; }
+
         public string GetStudentInfo()
         {
             return $"{FirstName} {LastName} - Oceny z matematyki : {Math} ";
         }
 
+        
 
         public override string GetInfo()
         {
