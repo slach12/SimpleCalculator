@@ -4,11 +4,24 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
+using StudentsDiary.Properties;
 
 namespace StudentsDiary
 {
     public partial class Main : Form
     {
+
+        public bool IsMaximize
+        {
+            get
+            {
+                return Settings.Default.IsMaximazie;
+            }
+            set
+            {
+                Settings.Default.IsMaximazie = value;
+            }
+        }
 
         private delegate void DisplayMessage(string message);
 
@@ -28,26 +41,12 @@ namespace StudentsDiary
 
         public Main()
         {
-           
-
             InitializeComponent();
-
             RefreshDiary();
-
             SetColumnHeader();
-
+            if (IsMaximize)
+                WindowState = FormWindowState.Maximized;
         }
-
-        public void DisplayMessage1(string message)
-        {
-            MessageBox.Show($"Metoda 1 - {message}");
-        }
-
-        public void DisplayMessage2(string message)
-        {
-            MessageBox.Show($"Metoda 2 - {message}");
-        }
-
 
         private void RefreshDiary()
         {
@@ -65,12 +64,8 @@ namespace StudentsDiary
             dgvDiary.Columns[hTechnology].HeaderText = "Technologia";
             dgvDiary.Columns[hPhysics].HeaderText = "Fizyka";
             dgvDiary.Columns[hPolishLang].HeaderText = "Język polski";
-            dgvDiary.Columns[hForeignLang].HeaderText = "Język obcy";
-
-            
+            dgvDiary.Columns[hForeignLang].HeaderText = "Język obcy";  
         }
-
-
 
         public void SerializeToFileWithTryFinally(List<Student> students)
         {
@@ -81,7 +76,6 @@ namespace StudentsDiary
                 streamWriter = new StreamWriter(Program.FilePath);
                 serialize.Serialize(streamWriter, students);
                 streamWriter.Close();
-                
             }
             finally
             {
@@ -89,19 +83,15 @@ namespace StudentsDiary
             }
         }
 
-
-
         public void SerializeToFileWithUsing(List<Student> students)
         {
             var serialize = new XmlSerializer(typeof(List<Student>));
-
             using (var streamWriter = new StreamWriter(Program.FilePath))
             {
                 serialize.Serialize(streamWriter, students);
                 streamWriter.Close();
             }
         }
-
 
         public void SerializeToFile2(List<Student> students)
         {
@@ -130,18 +120,15 @@ namespace StudentsDiary
                 MessageBox.Show("Proszę, zaznacz ucznia któego dane chcesz usunąć.");
                 return;
             }
-
             var selectedStudent = dgvDiary.SelectedRows[0];
             var confirmDelete = MessageBox.Show($"Czy na pewno chcesz usunąć ucznia " +
                 $"{(selectedStudent.Cells[1].Value.ToString() + " " + selectedStudent.Cells[2].Value.ToString()).Trim()}",
                 "Usuwanie Ucznisa",MessageBoxButtons.OKCancel);
             if(confirmDelete == DialogResult.OK)
             {
-
                 DeleteStudent(Convert.ToInt32(selectedStudent.Cells[0].Value));
                 RefreshDiary();
-            }
-          
+            } 
         }
 
         private void DeleteStudent(int id)
@@ -149,7 +136,6 @@ namespace StudentsDiary
             var students = _fileHelper.DeserializeFromFile();
             students.RemoveAll(x => x.Id == id);
             _fileHelper.SerializeToFile(students);
-
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -159,17 +145,28 @@ namespace StudentsDiary
                 MessageBox.Show("Proszę, zaznacz ucznia którego dane chcesz edytować.");
                 return;
             }
-
             var addEditStudent = new AddEditStudent(Convert.ToInt32( dgvDiary.SelectedRows[0].Cells[0].Value));
+            addEditStudent.FormClosing += AddEditStudent_FormClosing;
             addEditStudent.ShowDialog();
-
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             var addEditStudent = new AddEditStudent();
+            addEditStudent.FormClosing += AddEditStudent_FormClosing;
             addEditStudent.ShowDialog();
+            addEditStudent.FormClosing -= AddEditStudent_FormClosing;
+        }
 
+        private void AddEditStudent_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            RefreshDiary();
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            IsMaximize = (WindowState == FormWindowState.Maximized);
+            Settings.Default.Save();   
         }
     }
 }

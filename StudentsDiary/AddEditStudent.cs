@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -9,8 +11,6 @@ namespace StudentsDiary
 {
     public partial class AddEditStudent : Form
     {
-      //  private string _filePath =
-        //      Path.Combine(Environment.CurrentDirectory, "students.txt");
 
         private FileHelper<List<Student>> _fileHelper = new FileHelper<List<Student>>(Program.FilePath);
 
@@ -52,7 +52,7 @@ namespace StudentsDiary
             rtbComents.Text = _student.Coments;
 
         }
-        private void btnConfirm_Click(object sender, EventArgs e)
+        private  void btnConfirm_Click(object sender, EventArgs e)
         {
             var students = _fileHelper.DeserializeFromFile();
 
@@ -66,9 +66,9 @@ namespace StudentsDiary
             }
 
             AddNewStudentToList(students);
-
-          
+    
             _fileHelper.SerializeToFile(students);
+
             Close();
         }
 
@@ -88,7 +88,6 @@ namespace StudentsDiary
                 Coments = rtbComents.Text
 
             };
-
             students.Add(student);
         }
         private void AssigneIdToNewStudent(List<Student> students)
